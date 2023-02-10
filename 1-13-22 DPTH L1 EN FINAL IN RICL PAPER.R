@@ -60,7 +60,6 @@ mean(dem_long$NumberW)
 new_pret_df <- read_csv("long_pret_tokens_041821.csv")%>%
   select(-...1)
 ##combine the two: I changed this to be a left join
-#so that excess data points weren't included
 combined_pret <- long_beg_meta %>%
   left_join(new_pret_df)
 #do pivot longer
@@ -84,7 +83,7 @@ combined_imp1 <- combined_imp %>% #max is 24 columns here
   pivot_longer('0':'24', names_to = "number", values_to = "verb")%>%
   drop_na() %>% #this excludes participants who didn't produce any verbs
   select(-number)
-#572 total imp tokens: diff from other 2!
+#572 total imp tokens
 
 #orient dfs by stage (level and essay genre) for PRET
 combined_pret3 <- combined_pret1 %>%
@@ -486,7 +485,6 @@ ggplot(ROC_wc_level_avg,
   scale_fill_grey()+
   theme(text = element_text(size = 14),
         axis.text.x = element_text(angle = 45, hjust = 0.75, vjust = 0.9))
-#looks exactly the same as the visualizations graph
 
 # #by group actually
 # ROC1 <- combined_3%>%
