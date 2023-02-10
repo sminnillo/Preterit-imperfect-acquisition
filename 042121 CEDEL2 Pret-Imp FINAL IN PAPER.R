@@ -5,7 +5,6 @@
 #1) Default Past Tense Hypothesis 
 #     (also tested with COWS in '1-13-21 DPTH L1 EN.R')
 #2) Distributional Bias Hypothesis
-#3) Lexical Aspect Hypothesis
 
 #There are 2 participant groups:
 #L1 Spanish: N = 820 
@@ -146,7 +145,6 @@ combined_imp1 <- combined_imp %>% #max is 38 columns here
 NS_pret_tokens <- read_csv('CEDEL2_NS_pret_tokens_042221.csv')%>%
   select(-...1)
 ##combine the two: left join
-#so that excess data points weren't included
 combined_pret_NS <- CEDEL2_NS_meta_filtered2 %>%
   left_join(NS_pret_tokens)
 
@@ -360,7 +358,7 @@ token_count_df_python <- token_count_df_python %>%
     prop_imp = num_imp_tokens / num_part
   )
 
-View(token_count_df_python)
+#View(token_count_df_python)
 #want to account for text length here
 
 #x-axis levels: so in correct order (factor data type)
@@ -492,7 +490,7 @@ NS_lemma_imp <- combined_imp1_NS_lemmas %>%
 #combine
 NS_lemma_both <- full_join(NS_lemma_pret, NS_lemma_imp,
                            by = 'verb') %>%
-  filter(verb != 'aqui')
+  filter(verb != 'aqui') #excluding what isn't a verb
 
 #need to set things equal to 0
 NS_lemma_both$freq_lemma_pret[is.na(NS_lemma_both$freq_lemma_pret)] <- 0
@@ -566,14 +564,6 @@ ggplot(NS_past_list1a_imp_order,
   ylim(0,600)
 
 ## 5. Token Frequency ####
-#Issue with prior analysis for preterit
-#it had been duplicating data for fui, fuimos, etc
-#because corresponds to ser & ir as lemmas
-#only had done for NS, not L2 group
-#results less informative bc of this
-#fixing now, 9-7-21
-#will need to update paper with this change
-
 
 ### L2 ####
 
@@ -751,7 +741,7 @@ cf_df2 <- combined_imp1_lemmas %>%
 #combine
 cf_df3 <- rbind(cf_df1, cf_df2)%>%
   select(TA, verb)%>%
-  filter(verb != 'aqui' & verb != 'estabamos')%>%
+  filter(verb != 'aqui' & verb != 'estabamos')%>% #excluding processor errors
   write_delim('cf_df7.tsv', delim = "\t")
 ##View(cf_df3)
 #number of verbs: 4818
@@ -820,7 +810,7 @@ cf_df3_NS <- rbind(cf_df1_NS, cf_df2_NS)%>%
   write_delim('cf_df3_NS.tsv', delim = "\t")
 
 ##View(cf_df3_NS)
-#6977 without aqui and estabamos
+#6977 without aqui and estabamos (incorrectly processed by POS tagger)
   
 #this will let me copy and paste into excel
 #write_delim(data1, 'cf_df8_NS.txt')
@@ -986,7 +976,7 @@ prot_df_NS_27 <- prot_df_NS %>%
   arrange(desc(total_past))%>%
   drop_na()
 
-View(prot_df_NS_27)
+#View(prot_df_NS_27)
 
 #### Graph ####
 #graphs for L1 Spanish
