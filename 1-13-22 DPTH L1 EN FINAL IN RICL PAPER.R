@@ -68,7 +68,7 @@ combined_pret1 <- combined_pret %>% #max is 30 columns here
   pivot_longer('0':'30', names_to = "number", values_to = "verb")%>%
   drop_na() %>% #this excludes participants who didn't produce any verbs
   select(-number)
-#977 total preterit forms: so the first one is likely correct
+#977 total preterit forms
 
 #read imperfect
 new_imp_df <- read_csv("long_imp_tokens_041821.csv")%>%
@@ -141,7 +141,7 @@ combined_pret1_lemmas <- combined_pret_lemmas %>% #max is 30 columns here
   pivot_longer('0':'30', names_to = "number", values_to = "verb")%>%
   drop_na() %>% #this excludes participants who didn't produce any verbs
   select(-number)
-#977 total preterit forms: so the token one is  correct
+#977 total preterit forms
 
 #read imperfect
 new_imp_df_lemmas <- read_csv("long_imp_lemmas_041821.csv")%>%
@@ -474,7 +474,7 @@ ROC_wc_level_avg <- ROC_wc1 %>%
               total_count = sum(count))
 #View(ROC_wc_level_avg)
   
-##now bargraph this: what using in Hispania article
+##now bargraph this
 ggplot(ROC_wc_level_avg, 
        aes(x = x_axis, y = total_count, fill = tense_aspect))+
   geom_bar(stat = "identity", position = "dodge")+
@@ -639,24 +639,7 @@ ROC_wc_indiv_1 <- ROC_wc_indiv %>%
   pivot_longer(cols = c(Preterit, Imperfect), 
                names_to = 'TenseAspect',
                values_to = 'count')
-#numbers add up
 
-#let's try to get within-subjects error bars
-#folks who started at >=1
-# ROC_wc_indiv_1c <- summarySEwithin(ROC_wc_indiv_1,
-#                                    measurevar="count",
-#                                    withinvars=c("stage","TenseAspect"),
-#                                    idvar="ID")%>%
-#   mutate(
-#     x_axis = factor(case_when(
-#       stage == '1_description' ~ 'SPA 1 midpoint',
-#       stage == '1_narration' ~ 'SPA 1 end',
-#       stage == '2_description' ~ 'SPA 2 midpoint',
-#       stage == '2_narration' ~ 'SPA 2 end',
-#       stage == '3_description' ~ 'SPA 3 midpoint',
-#       stage == '3_narration' ~ 'SPA 3 end'
-#     ), levels = x_axis_levels))
-#View(ROC_wc_indiv_1c)
 
 #now graph their trajectories
 #folks who started at 0
@@ -674,20 +657,6 @@ ggplot(data = ROC_wc_indiv_0,
   scale_fill_grey()+
   theme(axis.text.x = element_text(angle = 45, hjust = 0.75, vjust = 0.9))
 
-# #folks who started at >=1
-# ggplot(data = ROC_wc_indiv_1,
-#        aes(x = stage,
-#            y = count,
-#            #group = `TenseAspect`, #need this for line
-#            color = `TenseAspect`))+ 
-#   geom_boxplot()+  
-#   #geom_line()+
-#   #facet_wrap(~tense_aspect)+
-#   labs(x = "Data Collection Time", y = "Use of past form per essay", color = "Tense-Aspect")+
-#   scale_fill_grey()+
-#   theme(axis.text.x = element_text(angle = 45, hjust = 0.75, vjust = 0.9))
-# 
-# #folks who started at >=1 had greater use 
 
 #line plots
 #mean and CI based on summarySEwithin (within-subjects variance)
@@ -707,6 +676,7 @@ ggplot(ROC_wc_indiv_0c, aes(x=x_axis, y=count,
 
 #per 100 words, started at 0
 #write_csv(ROC_wc_indiv_0c_100, "Figure1_RiCL_042822.csv")
+
 ##### GRAPH IN PAPER ####
 ggplot(ROC_wc_indiv_0c_100, aes(x=x_axis, y=tokens_per_100_w, 
                             group = `TenseAspect`,
@@ -721,18 +691,6 @@ ggplot(ROC_wc_indiv_0c_100, aes(x=x_axis, y=tokens_per_100_w,
         axis.text.x = element_text(angle = 45, hjust = 0.75, vjust = 0.9))+
   scale_color_manual(values=c("grey0", "grey50"))
 
-# #start at >=1
-# ggplot(ROC_wc_indiv_1c, aes(x=x_axis, y=count, 
-#                             group = `TenseAspect`,
-#                             color = `TenseAspect`)) +
-#   geom_line() +
-#   geom_errorbar(width=.1, aes(ymin=count-ci, ymax=count+ci)) +
-#   geom_point(shape=21, size=3, fill="white") +
-#   ylim(-5,20)+
-#   labs(x = "Data Collection Time", y = "Mean use of past form", color = "Tense-Aspect")+
-#   scale_fill_grey()+
-#   theme(text = element_text(size = 14),
-#         axis.text.x = element_text(angle = 45, hjust = 0.75, vjust = 0.9))
 
 #let's pull up the actual essays of students who started at 0
 all_essays <- read_csv('all_present_data_COWS_062521.csv')%>%
@@ -794,7 +752,6 @@ combined_wc_sum2_check <- combined_wc_sum2 %>%
 #summary SE
 #let's try to get within-subjects error bars
 #summarySEwithin adjusts the error bars so that inter-subject variability is removed
-#http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/#understanding-within-subjects-error-bars
 combined_wc_sum1_SE <- summarySEwithin(combined_wc_sum2,
                                    measurevar="count",
                                    withinvars=c("stage","tense_aspect"),
