@@ -1,5 +1,9 @@
 #1-14-21 Sophia Minnillo
 
+Author: Sophia Minnillo
+Copyright 2023
+Distributed under terms of GNU General Public License v3
+
 #In this script, I analyze the cross-sectional CEDEL2
 #data in order to test the following hypotheses:
 #1) Default Past Tense Hypothesis 
